@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#581145"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>Rinky's Collections</title>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#581145;--primary-dark:#3b0a2e;--primary-light:#7a1b61;--primary-subtle:#f9f0f6;
+  --gold:#c5a059;--gold-light:#e5c158;--gold-dark:#9a7b38;
+  --bg:#fffbf7;--card:#fff;--border:#f0e6dd;--border2:#e8d5cc;
+  --text:#2b1c28;--muted:#6e5d6a;--muted2:#9e8ea0;
+  --success:#10b981;--success-bg:#ecfdf5;
+  --warn:#f59e0b;--warn-bg:#fffbe6;
+  --danger:#ef4444;--danger-bg:#fef2f2;
+  --info:#3b82f6;--info-bg:#eff6ff;
+  --serif:'Cinzel',serif;--sans:'Outfit',sans-serif;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-full:9999px;
+  --sh-sm:0 2px 8px rgba(88,17,69,.07);
+  --sh-md:0 4px 16px rgba(88,17,69,.12);
+  --sh-lg:0 8px 30px rgba(88,17,69,.18);
+  --sh-gold:0 4px 15px rgba(212,175,55,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--sans);background:#1a0b16;color:var(--text);min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
+#app{width:100%;max-width:480px;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 0 60px #00000099;position:relative;overflow:hidden}
+@media(min-width:768px){body{align-items:center;padding:20px 0;background:radial-gradient(circle at 50% 30%,#430c34,#170413)}#app{min-height:92vh;border-radius:32px;border:6px solid #4a193d;outline:1px solid var(--gold);overflow:hidden}}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#581145 0%,#7a1b61 50%,#3b0a2e 100%);color:#fff;padding:14px 18px 16px;position:sticky;top:0;z-index:40;border-bottom:2px solid var(--gold);box-shadow:var(--sh-md)}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{width:42px;height:42px;border-radius:50%;border:2px solid var(--gold-light);background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:var(--sh-gold);flex-shrink:0}
+.brand h1{font-family:var(--serif);font-size:1.05rem;font-weight:700;letter-spacing:.5px;line-height:1.2}
+.brand p{font-size:.65rem;color:var(--gold-light);letter-spacing:1.2px;text-transform:uppercase;font-weight:500;margin-top:1px}
+.hdr-acts{display:flex;gap:6px}
+.hdr-btn{background:#ffffff1f;border:1px solid rgba(229,193,88,.3);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:1rem}
+.hdr-btn:active{transform:scale(.9);background:#ffffff40}
+
+/* ── SEARCH BAR ── */
+.search-bar{padding:10px 16px;background:linear-gradient(135deg,#581145,#3b0a2e);border-bottom:1px solid rgba(197,160,89,.2)}
+.search-wrap{display:flex;align-items:center;gap:8px;background:#ffffff1a;border:1px solid rgba(197,160,89,.3);border-radius:var(--r-full);padding:6px 14px}
+.search-wrap input{background:none;border:none;outline:none;color:#fff;font-size:.85rem;flex:1;font-family:var(--sans)}
+.search-wrap input::placeholder{color:#ffffff66}
+.search-wrap span{color:var(--gold-light);font-size:1rem}
+
+/* ── BOTTOM NAV ── */
+.nav{position:fixed;bottom:0;width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 2px 10px;z-index:50;box-shadow:0 -4px 20px rgba(88,17,69,.1)}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);background:none;border:none;font-size:.62rem;font-weight:500;cursor:pointer;flex:1;padding:3px 0;transition:all .2s;letter-spacing:.3px}
+.nav-item .ni-icon{width:44px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:all .2s}
+.nav-item.active{color:var(--primary);font-weight:700}
+.nav-item.active .ni-icon{background:var(--primary-subtle)}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding-bottom:80px}
+.page{display:none;padding:0}
+.page.active{display:block}
+
+/* ── DASHBOARD ── */
+.dash-banner{background:linear-gradient(135deg,#581145,#7a1b61,#3b0a2e);padding:18px 18px 24px;position:relative;overflow:hidden}
+.dash-banner::after{content:'🪡';position:absolute;right:-10px;top:-10px;font-size:5rem;opacity:.08;pointer-events:none}
+.dash-date{color:var(--gold-light);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.dash-greeting{color:#fff;font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:4px}
+.dash-sub{color:#ffffff99;font-size:.8rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 14px 4px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;position:relative;overflow:hidden;box-shadow:var(--sh-sm)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-md) var(--r-md) 0 0}
+.stat-card.gold::before{background:linear-gradient(90deg,var(--gold-dark),var(--gold-light))}
+.stat-card.green::before{background:linear-gradient(90deg,#059669,#10b981)}
+.stat-card.red::before{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.stat-card.blue::before{background:linear-gradient(90deg,#1d4ed8,#3b82f6)}
+.stat-icon{font-size:1.4rem;margin-bottom:6px}
+.stat-val{font-size:1.35rem;font-weight:700;color:var(--text);line-height:1}
+.stat-label{font-size:.7rem;color:var(--muted);margin-top:4px;font-weight:500}
+.stat-sub{font-size:.65rem;color:var(--muted2);margin-top:2px}
+
+.section-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
+.section-hdr h2{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.section-hdr h2 span{color:var(--primary)}
+.see-all{font-size:.75rem;color:var(--primary);font-weight:600;cursor:pointer;background:none;border:none;padding:4px 8px;border-radius:var(--r-full);background:var(--primary-subtle)}
+
+/* ── ACTIVITY LIST ── */
+.activity-list{padding:0 14px 8px}
+.act-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:8px;box-shadow:var(--sh-sm)}
+.act-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;font-weight:600}
+.act-info{flex:1;min-width:0}
+.act-name{font-size:.85rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-desc{font-size:.72rem;color:var(--muted);margin-top:1px}
+.act-amt{text-align:right;flex-shrink:0}
+.act-amt .amount{font-size:.9rem;font-weight:700}
+.act-amt .time{font-size:.65rem;color:var(--muted2);margin-top:2px}
+.cr{color:var(--success)}.dr{color:var(--danger)}
+
+/* ── ALERTS ── */
+.alert-strip{margin:0 14px 10px;padding:10px 14px;border-radius:var(--r-md);display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:500;cursor:pointer}
+.alert-strip.warn{background:var(--warn-bg);border:1px solid #fde68a;color:#92400e}
+.alert-strip.danger{background:var(--danger-bg);border:1px solid #fca5a5;color:#991b1b}
+
+/* ── CARDS (stock/customer/manufacturer) ── */
+.list-pad{padding:12px 14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:12px;box-shadow:var(--sh-sm);overflow:hidden;transition:all .2s}
+.card:active{transform:scale(.99)}
+.card-head{display:flex;align-items:center;gap:12px;padding:14px 16px 10px}
+.card-img{width:52px;height:52px;border-radius:var(--r-md);object-fit:cover;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:linear-gradient(135deg,var(--primary-subtle),#f3e8f0);border:1px solid var(--border2)}
+.card-title{font-size:.95rem;font-weight:700;color:var(--text);line-height:1.2}
+.card-code{font-size:.7rem;color:var(--muted);margin-top:2px;font-family:monospace;letter-spacing:.5px}
+.card-right{margin-left:auto;text-align:right;flex-shrink:0}
+.price-tag{font-size:.95rem;font-weight:700;color:var(--primary)}
+.stock-badge{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-weight:600;padding:3px 8px;border-radius:var(--r-full);margin-top:4px}
+.badge-ok{background:var(--success-bg);color:#065f46}
+.badge-low{background:var(--warn-bg);color:#92400e}
+.badge-out{background:var(--danger-bg);color:#991b1b}
+.badge-purple{background:var(--primary-subtle);color:var(--primary)}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;padding:0 16px 10px}
+.tag{background:var(--primary-subtle);color:var(--primary);font-size:.65rem;font-weight:600;padding:3px 9px;border-radius:var(--r-full);letter-spacing:.3px}
+.tag.gold-tag{background:#fef9ec;color:#92400e;border:1px solid #fde68a}
+.card-footer{border-top:1px solid var(--border);padding:10px 16px;display:flex;gap:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;font-family:var(--sans);font-size:.78rem;font-weight:600;border-radius:var(--r-full);cursor:pointer;transition:all .2s;padding:7px 14px;border:none;white-space:nowrap}
+.btn:active{transform:scale(.95)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;box-shadow:0 3px 10px rgba(88,17,69,.3)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-dark),var(--gold-light));color:#fff;box-shadow:var(--sh-gold)}
+.btn-outline{background:none;border:1.5px solid var(--primary);color:var(--primary)}
+.btn-success{background:var(--success-bg);color:#065f46;border:1.5px solid #a7f3d0}
+.btn-danger{background:var(--danger-bg);color:#991b1b;border:1.5px solid #fca5a5}
+.btn-ghost{background:none;color:var(--muted);border:1px solid var(--border)}
+.btn-sm{padding:5px 10px;font-size:.72rem}
+.btn-block{width:100%;justify-content:center}
+.btn-whatsapp{background:linear-gradient(135deg,#128c7e,#25d366);color:#fff}
+
+/* ── CUSTOMER ── */
+.cust-udhar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(135deg,var(--danger-bg),#fff5f5);border-top:1px solid #fca5a5}
+.udhar-left label{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:#991b1b;font-weight:600}
+.udhar-left .udhar-amt{font-size:1.15rem;font-weight:800;color:var(--danger)}
+.cust-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 16px 10px;border-top:1px solid var(--border)}
+.meta-item label{font-size:.62rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted2);font-weight:600;display:block}
+.meta-item span{font-size:.82rem;color:var(--text);font-weight:500;margin-top:2px;display:block}
+
+/* ── MANUFACTURER ── */
+.mfr-credit{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(135deg,#fff3e0,#fffbf7);border-top:1px solid #fde68a}
+.mfr-credit label{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:#92400e;font-weight:600;display:block}
+.mfr-credit .credit-amt{font-size:1.15rem;font-weight:800;color:var(--warn)}
+
+/* ── FAB ── */
+.fab{position:fixed;bottom:76px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border:none;font-size:1.6rem;cursor:pointer;box-shadow:0 4px 20px rgba(88,17,69,.45);display:flex;align-items:center;justify-content:center;z-index:45;transition:all .25s}
+.fab:active{transform:scale(.9)}
+.fab-speed{position:fixed;bottom:136px;right:16px;display:flex;flex-direction:column;gap:8px;z-index:44;transition:all .3s}
+.fab-speed-item{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.fab-speed-item button{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-md);transition:all .2s}
+.fab-speed-item button:active{transform:scale(.9)}
+.fab-speed-label{font-size:.72rem;font-weight:600;background:#fff;padding:4px 10px;border-radius:var(--r-full);box-shadow:var(--sh-sm);color:var(--text)}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:#00000066;z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg);border-radius:var(--r-lg) var(--r-lg) 0 0;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding-bottom:20px;box-shadow:0 -8px 40px #00000033}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:1}
+.modal-hdr h3{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--primary)}
+.modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);padding:4px;border-radius:50%;transition:all .2s}
+.modal-close:active{background:var(--border)}
+.modal-body{padding:16px 18px}
+
+/* ── FORM ── */
+.form-row{margin-bottom:14px}
+.form-row label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.form-row input,.form-row select,.form-row textarea{width:100%;border:1.5px solid var(--border2);border-radius:var(--r-md);padding:10px 13px;font-size:.88rem;font-family:var(--sans);color:var(--text);background:#fff;outline:none;transition:border .2s}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(88,17,69,.08)}
+.form-row textarea{resize:vertical;min-height:70px}
+.form-row select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%236e5d6a' stroke-width='2' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-footer{padding:14px 18px 0;display:flex;gap:8px}
+
+/* ── TRANSACTION LIST ── */
+.txn-list{padding:0 14px}
+.txn-item{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--border);margin-bottom:7px}
+.txn-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.txn-info{flex:1;min-width:0}
+.txn-title{font-size:.82rem;font-weight:600;color:var(--text)}
+.txn-date{font-size:.67rem;color:var(--muted2);margin-top:1px}
+.txn-amt{font-size:.88rem;font-weight:700}
+
+/* ── LEDGER VIEW ── */
+.ledger-balance{background:linear-gradient(135deg,var(--primary),var(--primary-light));margin:14px;border-radius:var(--r-lg);padding:18px;color:#fff;box-shadow:var(--sh-lg)}
+.ledger-balance label{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold-light);display:block;margin-bottom:4px}
+.ledger-balance .bal-amt{font-size:1.8rem;font-weight:800;font-family:var(--serif)}
+.ledger-balance .bal-sub{font-size:.75rem;color:#ffffff99;margin-top:6px}
+.ledger-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 14px 14px}
+.lm-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;text-align:center}
+.lm-card label{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted2);display:block;margin-bottom:4px}
+.lm-card .lm-val{font-size:1rem;font-weight:700}
+
+/* ── SETTINGS ── */
+.setting-group{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);margin:0 14px 12px;overflow:hidden}
+.setting-group-title{padding:10px 16px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);background:var(--primary-subtle);border-bottom:1px solid var(--border)}
+.setting-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.setting-item:last-child{border-bottom:none}
+.setting-item:active{background:var(--primary-subtle)}
+.setting-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.setting-info{flex:1}
+.setting-info h4{font-size:.88rem;font-weight:600;color:var(--text)}
+.setting-info p{font-size:.72rem;color:var(--muted);margin-top:1px}
+.setting-item .arr{color:var(--muted2);font-size:.9rem}
+
+/* ── CHIPS / FILTER ── */
+.filter-bar{display:flex;gap:7px;padding:10px 14px;overflow-x:auto;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:6px 14px;border-radius:var(--r-full);font-size:.75rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);color:var(--muted);background:#fff;transition:all .2s}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* ── EMPTY STATE ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center}
+.empty-icon{font-size:3.5rem;margin-bottom:16px;opacity:.6}
+.empty h3{font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:6px}
+.empty p{font-size:.82rem;color:var(--muted);line-height:1.5}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:#2b1c28;color:#fff;padding:10px 18px;border-radius:var(--r-full);font-size:.82rem;font-weight:500;z-index:200;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90%}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── SUMMARY RIBBON ── */
+.summary-ribbon{display:flex;gap:0;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}
+.summary-ribbon::-webkit-scrollbar{display:none}
+.rib-item{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 14px;margin-right:8px;min-width:110px}
+.rib-item label{font-size:.63rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted2);display:block;margin-bottom:3px}
+.rib-item .rib-val{font-size:1rem;font-weight:700}
+
+/* ── QUICK BILL ── */
+.bill-items{padding:0 14px}
+.bill-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)}
+.bill-row:last-child{border-bottom:none}
+.bill-row .name{flex:1;font-size:.85rem;font-weight:500}
+.bill-row .qty{width:36px;text-align:center;font-size:.82rem;color:var(--muted)}
+.bill-row .price{font-size:.85rem;font-weight:600;color:var(--primary);min-width:70px;text-align:right}
+.bill-row .remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:1.1rem;padding:2px 4px}
+.bill-total{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--primary-subtle);border-radius:var(--r-md);margin:8px 14px 4px}
+.bill-total label{font-size:.8rem;font-weight:700;text-transform:uppercase;color:var(--primary)}
+.bill-total span{font-size:1.2rem;font-weight:800;color:var(--primary)}
+
+/* ── MISC ── */
+.divider{height:1px;background:var(--border);margin:8px 0}
+.text-center{text-align:center}
+.hidden{display:none!important}
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);font-size:.85rem;gap:8px}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.page-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border)}
+.page-hdr h2{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div id="app">
+  <h2 class="sr-only">Rinky's Collections – Saree Store Management App</h2>
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-top">
+      <div class="brand">
+        <div class="brand-logo">🪡</div>
+        <div>
+          <h1>Rinky's Collections</h1>
+          <p>Saree Ledger & Accounts</p>
+        </div>
+      </div>
+      <div class="hdr-acts">
+        <button class="hdr-btn" onclick="openSearch()" title="Search">🔍</button>
+        <button class="hdr-btn" onclick="openModal('modal-export')" title="Export">📤</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT PAGES -->
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div id="page-dash" class="page active">
+      <div class="dash-banner">
+        <div class="dash-date" id="dash-date"></div>
+        <div class="dash-greeting">Jai Mata Di, Rinky Ji! 🙏</div>
+        <div class="dash-sub">Here's your store snapshot for today</div>
+      </div>
+
+      <div class="stats-grid" id="stats-grid"></div>
+
+      <div id="alerts-area"></div>
+
+      <!-- Quick Actions -->
+      <div class="section-hdr">
+        <h2>⚡ <span>Quick Actions</span></h2>
+      </div>
+      <div style="display:flex;gap:8px;padding:0 14px 8px;overflow-x:auto;scrollbar-width:none">
+        <button class="btn btn-primary btn-sm" onclick="openAddSaree()" style="flex-shrink:0">➕ Add Saree</button>
+        <button class="btn btn-outline btn-sm" onclick="openAddCustomer()" style="flex-shrink:0">👤 Customer</button>
+        <button class="btn btn-gold btn-sm" onclick="openAddMfr()" style="flex-shrink:0">🏭 Manufacturer</button>
+        <button class="btn btn-success btn-sm" onclick="openBill()" style="flex-shrink:0">🧾 Quick Bill</button>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="section-hdr">
+        <h2>📋 <span>Recent Activity</span></h2>
+        <button class="see-all" onclick="showToast('Showing all transactions')">See all</button>
+      </div>
+      <div class="activity-list" id="activity-list"></div>
+
+      <!-- Low Stock -->
+      <div id="low-stock-section"></div>
+    </div>
+
+    <!-- ══ STOCK ══ -->
+    <div id="page-stock" class="page">
+      <div class="page-hdr">
+        <h2>📦 Saree Stock</h2>
+        <button class="btn btn-primary btn-sm" onclick="openAddSaree()">➕ Add</button>
+      </div>
+      <div class="summary-ribbon" id="stock-ribbon"></div>
+      <div class="filter-bar">
+        <button class="chip active" onclick="filterStock('all',this)">All</button>
+        <button class="chip" onclick="filterStock('Silk',this)">Silk</button>
+        <button class="chip" onclick="filterStock('Cotton',this)">Cotton</button>
+        <button class="chip" onclick="filterStock('Georgette',this)">Georgette</button>
+        <button class="chip" onclick="filterStock('Banarasi',this)">Banarasi</button>
+        <button class="chip" onclick="filterStock('Chanderi',this)">Chanderi</button>
+        <button class="chip" onclick="filterStock('low',this)">⚠️ Low Stock</button>
+      </div>
+      <div class="list-pad" id="stock-list"></div>
+    </div>
+
+    <!-- ══ CUSTOMERS ══ -->
+    <div id="page-cust" class="page">
+      <div class="page-hdr">
+        <h2>👥 Customers</h2>
+        <button class="btn btn-primary btn-sm" onclick="openAddCustomer()">➕ Add</button>
+      </div>
+      <div class="summary-ribbon" id="cust-ribbon"></div>
+      <div class="filter-bar">
+        <button class="chip active" onclick="filterCustomers('all',this)">All</button>
+        <button class="chip" onclick="filterCustomers('dues',this)">Has Dues</button>
+        <button class="chip" onclick="filterCustomers('paid',this)">Cleared</button>
+        <button class="chip" onclick="filterCustomers('vip',this)">⭐ VIP</button>
+      </div>
+      <div class="list-pad" id="cust-list"></div>
+    </div>
+
+    <!-- ══ MANUFACTURER ══ -->
+    <div id="page-mfr" class="page">
+      <div class="page-hdr">
+        <h2>🏭 Manufacturers</h2>
+        <button class="btn btn-primary btn-sm" onclick="openAddMfr()">➕ Add</button>
+      </div>
+      <div class="summary-ribbon" id="mfr-ribbon"></div>
+      <div class="list-pad" id="mfr-list"></div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div id="page-settings" class="page">
+      <div class="page-hdr"><h2>⚙️ Settings & Export</h2></div>
+      <div style="height:14px"></div>
+
+      <div class="setting-group">
+        <div class="setting-group-title">🏪 Store Info</div>
+        <div class="setting-item" onclick="openModal('modal-store-settings')">
+          <div class="setting-icon" style="background:#f3e8f0">🪡</div>
+          <div class="setting-info"><h4>Store Details</h4><p>Name, address, phone, UPI ID</p></div>
+          <span class="arr">›</span>
+        </div>
+        <div class="setting-item" onclick="openModal('modal-store-settings')">
+          <div class="setting-icon" style="background:#eff6ff">📱</div>
+          <div class="setting-info"><h4>WhatsApp Number</h4><p id="wa-num-display">Set your business WhatsApp</p></div>
+          <span class="arr">›</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-group-title">📊 Export Data</div>
+        <div class="setting-item" onclick="exportAllExcel()">
+          <div class="setting-icon" style="background:#ecfdf5">📋</div>
+          <div class="setting-info"><h4>Export to Excel (.csv)</h4><p>Stock, customers, manufacturer accounts</p></div>
+          <span class="arr">›</span>
+        </div>
+        <div class="setting-item" onclick="exportPDF()">
+          <div class="setting-icon" style="background:#fef9ec">🖨️</div>
+          <div class="setting-info"><h4>Print / Export PDF</h4><p>Full ledger report for accounts</p></div>
+          <span class="arr">›</span>
+        </div>
+        <div class="setting-item" onclick="sendWhatsAppReport()">
+          <div class="setting-icon" style="background:#f0fdf4">💬</div>
+          <div class="setting-info"><h4>Send Report on WhatsApp</h4><p>Daily summary to your number</p></div>
+          <span class="arr">›</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-group-title">💾 Data Management</div>
+        <div class="setting-item" onclick="backupData()">
+          <div class="setting-icon" style="background:#eff6ff">☁️</div>
+          <div class="setting-info"><h4>Backup to Device</h4><p>Save JSON backup file</p></div>
+          <span class="arr">›</span>
+        </div>
+        <div class="setting-item" onclick="document.getElementById('restore-input').click()">
+          <div class="setting-icon" style="background:#f9f0f6">📂</div>
+          <div class="setting-info"><h4>Restore Backup</h4><p>Load from saved JSON file</p></div>
+          <span class="arr">›</span>
+        </div>
+        <div class="setting-item" onclick="clearAllData()">
+          <div class="setting-icon" style="background:#fef2f2">🗑️</div>
+          <div class="setting-info"><h4>Clear All Data</h4><p style="color:var(--danger)">Permanently delete everything</p></div>
+          <span class="arr">›</span>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:20px 14px;color:var(--muted2);font-size:.72rem">
+        <p>Rinky's Collections v2.0</p>
+        <p style="margin-top:4px">Saree Ledger & Accounts Manager</p>
+        <p style="margin-top:4px;color:var(--gold)">Made with ❤️ for Rinky Ji</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav">
+    <button class="nav-item active" onclick="switchPage('dash',this)">
+      <div class="ni-icon">🏠</div><span>Home</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('stock',this)">
+      <div class="ni-icon">📦</div><span>Stock</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('cust',this)">
+      <div class="ni-icon">👥</div><span>Customers</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('mfr',this)">
+      <div class="ni-icon">🏭</div><span>Suppliers</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('settings',this)">
+      <div class="ni-icon">⚙️</div><span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- FAB -->
+  <div class="fab-speed hidden" id="fab-speed">
+    <div class="fab-speed-item"><span class="fab-speed-label">Add Saree</span><button style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff" onclick="openAddSaree();closeFab()">🪡</button></div>
+    <div class="fab-speed-item"><span class="fab-speed-label">Add Customer</span><button style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff" onclick="openAddCustomer();closeFab()">👤</button></div>
+    <div class="fab-speed-item"><span class="fab-speed-label">Manufacturer</span><button style="background:linear-gradient(135deg,var(--gold-dark),var(--gold-light));color:#fff" onclick="openAddMfr();closeFab()">🏭</button></div>
+    <div class="fab-speed-item"><span class="fab-speed-label">Quick Bill</span><button style="background:linear-gradient(135deg,#059669,#10b981);color:#fff" onclick="openBill();closeFab()">🧾</button></div>
+  </div>
+  <button class="fab" id="fab-btn" onclick="toggleFab()">➕</button>
+
+</div><!-- /app -->
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- ADD SAREE -->
+<div class="modal-bg" id="modal-add-saree">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="saree-modal-title">🪡 Add Saree to Stock</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-saree')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-saree-id"/>
+      <div class="form-row"><label>Saree Title *</label><input type="text" id="s-title" placeholder="e.g. Banarasi Silk Zari Saree"/></div>
+      <div class="form-row"><label>Saree Code</label><input type="text" id="s-code" placeholder="e.g. BNR-001"/></div>
+      <div class="form-2col">
+        <div class="form-row"><label>Fabric / Type *</label>
+          <select id="s-fabric">
+            <option value="">Select</option>
+            <option>Silk</option><option>Cotton</option><option>Georgette</option><option>Banarasi</option>
+            <option>Chanderi</option><option>Chiffon</option><option>Crepe</option><option>Organza</option>
+            <option>Linen</option><option>Net</option><option>Kanjivaram</option><option>Bandhani</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-row"><label>Color</label><input type="text" id="s-color" placeholder="e.g. Ruby Red"/></div>
+      </div>
+      <div class="form-2col">
+        <div class="form-row"><label>Cost Price (₹)</label><input type="number" id="s-cost" placeholder="0"/></div>
+        <div class="form-row"><label>Sell Price (₹) *</label><input type="number" id="s-price" placeholder="0"/></div>
+      </div>
+      <div class="form-2col">
+        <div class="form-row"><label>Qty in Stock</label><input type="number" id="s-qty" placeholder="1" min="0"/></div>
+        <div class="form-row"><label>Low Stock Alert</label><input type="number" id="s-min" placeholder="2" min="0"/></div>
+      </div>
+      <div class="form-row"><label>Manufacturer</label>
+        <select id="s-mfr"><option value="">None</option></select>
+      </div>
+      <div class="form-row"><label>Description / Notes</label><textarea id="s-desc" placeholder="Zari work, bridal, occasion etc."></textarea></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-add-saree')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveSaree()">💾 Save to Inventory</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CUSTOMER -->
+<div class="modal-bg" id="modal-add-customer">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="cust-modal-title">👤 Add New Customer</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-customer')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-cust-id"/>
+      <div class="form-row"><label>Customer Name *</label><input type="text" id="c-name" placeholder="Full name"/></div>
+      <div class="form-2col">
+        <div class="form-row"><label>Phone *</label><input type="tel" id="c-phone" placeholder="9876543210"/></div>
+        <div class="form-row"><label>City</label><input type="text" id="c-city" placeholder="e.g. Jaipur"/></div>
+      </div>
+      <div class="form-row"><label>Address</label><textarea id="c-addr" placeholder="Full address (optional)" style="min-height:55px"></textarea></div>
+      <div class="form-2col">
+        <div class="form-row"><label>Opening Udhar (₹)</label><input type="number" id="c-udhar" placeholder="0" min="0"/></div>
+        <div class="form-row"><label>Tag</label>
+          <select id="c-tag">
+            <option value="Regular">Regular</option>
+            <option value="VIP">⭐ VIP</option>
+            <option value="Wholesale">Wholesale</option>
+            <option value="New">New Customer</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row"><label>Notes</label><textarea id="c-notes" placeholder="Payment habits, preferences etc." style="min-height:55px"></textarea></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-add-customer')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveCustomer()">💾 Save Customer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MANUFACTURER -->
+<div class="modal-bg" id="modal-add-mfr">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="mfr-modal-title">🏭 Add Manufacturer</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-mfr')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-mfr-id"/>
+      <div class="form-row"><label>Firm / Manufacturer Name *</label><input type="text" id="m-name" placeholder="e.g. Varanasi Silk House"/></div>
+      <div class="form-2col">
+        <div class="form-row"><label>Contact Person</label><input type="text" id="m-contact" placeholder="Name"/></div>
+        <div class="form-row"><label>Phone</label><input type="tel" id="m-phone" placeholder="9876543210"/></div>
+      </div>
+      <div class="form-row"><label>City / Location</label><input type="text" id="m-city" placeholder="e.g. Varanasi, UP"/></div>
+      <div class="form-row"><label>Fabric / Speciality</label><input type="text" id="m-spec" placeholder="e.g. Banarasi Silk, Kanjivaram"/></div>
+      <div class="form-2col">
+        <div class="form-row"><label>Opening Credit (₹)</label><input type="number" id="m-credit" placeholder="0" min="0"/></div>
+        <div class="form-row"><label>Credit Limit (₹)</label><input type="number" id="m-limit" placeholder="100000" min="0"/></div>
+      </div>
+      <div class="form-row"><label>Notes</label><textarea id="m-notes" placeholder="Payment terms, special discounts etc." style="min-height:55px"></textarea></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-add-mfr')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveMfr()">💾 Save Manufacturer</button>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER DETAIL -->
+<div class="modal-bg" id="modal-cust-detail">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="cust-detail-title">Customer Ledger</h3>
+      <button class="modal-close" onclick="closeModal('modal-cust-detail')">✕</button>
+    </div>
+    <div id="cust-detail-body"></div>
+  </div>
+</div>
+
+<!-- MANUFACTURER DETAIL -->
+<div class="modal-bg" id="modal-mfr-detail">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="mfr-detail-title">Manufacturer Ledger</h3>
+      <button class="modal-close" onclick="closeModal('modal-mfr-detail')">✕</button>
+    </div>
+    <div id="mfr-detail-body"></div>
+  </div>
+</div>
+
+<!-- SAREE DETAIL -->
+<div class="modal-bg" id="modal-saree-detail">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="saree-detail-title">Saree Details</h3>
+      <button class="modal-close" onclick="closeModal('modal-saree-detail')">✕</button>
+    </div>
+    <div id="saree-detail-body"></div>
+  </div>
+</div>
+
+<!-- RECORD PAYMENT (Customer) -->
+<div class="modal-bg" id="modal-pay-cust">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>💸 Record Payment</h3>
+      <button class="modal-close" onclick="closeModal('modal-pay-cust')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pay-cust-id"/>
+      <div id="pay-cust-summary" style="background:var(--danger-bg);border:1px solid #fca5a5;border-radius:var(--r-md);padding:12px;margin-bottom:14px;font-size:.85rem"></div>
+      <div class="form-row"><label>Transaction Type</label>
+        <select id="pay-type">
+          <option value="payment">💰 Payment Received (Customer Paid)</option>
+          <option value="sale">🛍️ Sale / New Udhar Added</option>
+          <option value="advance">⬆️ Advance Deposit</option>
+          <option value="return">↩️ Return / Refund</option>
+        </select>
+      </div>
+      <div class="form-2col">
+        <div class="form-row"><label>Amount (₹) *</label><input type="number" id="pay-amount" placeholder="0" min="0"/></div>
+        <div class="form-row"><label>Date</label><input type="date" id="pay-date"/></div>
+      </div>
+      <div class="form-row"><label>Payment Mode</label>
+        <select id="pay-mode">
+          <option>Cash</option><option>UPI / GPay</option><option>Bank Transfer</option><option>Cheque</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Note / Description</label><input type="text" id="pay-note" placeholder="e.g. Partial payment for Oct sarees"/></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-pay-cust')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveCustomerTxn()">✅ Record Transaction</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECORD MFR TRANSACTION -->
+<div class="modal-bg" id="modal-pay-mfr">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>🏭 Record Manufacturer Entry</h3>
+      <button class="modal-close" onclick="closeModal('modal-pay-mfr')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="mfr-txn-id"/>
+      <div id="mfr-txn-summary" style="background:var(--warn-bg);border:1px solid #fde68a;border-radius:var(--r-md);padding:12px;margin-bottom:14px;font-size:.85rem"></div>
+      <div class="form-row"><label>Transaction Type</label>
+        <select id="mfr-txn-type">
+          <option value="purchase">📦 Stock Purchase (Credit Added)</option>
+          <option value="payment">💰 Payment Made to Manufacturer</option>
+          <option value="return">↩️ Stock Return</option>
+          <option value="discount">🏷️ Discount / Adjustment</option>
+        </select>
+      </div>
+      <div class="form-2col">
+        <div class="form-row"><label>Amount (₹) *</label><input type="number" id="mfr-txn-amount" placeholder="0" min="0"/></div>
+        <div class="form-row"><label>Date</label><input type="date" id="mfr-txn-date"/></div>
+      </div>
+      <div class="form-row"><label>Note</label><input type="text" id="mfr-txn-note" placeholder="e.g. October lot - 20 sarees"/></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-pay-mfr')">Cancel</button>
+      <button class="btn btn-gold" style="flex:1" onclick="saveMfrTxn()">✅ Record Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK BILL -->
+<div class="modal-bg" id="modal-bill">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>🧾 Quick Bill / Sale</h3>
+      <button class="modal-close" onclick="closeModal('modal-bill')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row"><label>Select Customer</label>
+        <select id="bill-cust"><option value="">Walk-in Customer</option></select>
+      </div>
+      <div class="form-row">
+        <label>Add Saree from Stock</label>
+        <div style="display:flex;gap:6px">
+          <select id="bill-saree-select" style="flex:1;font-size:.82rem"></select>
+          <button class="btn btn-outline btn-sm" onclick="addBillItem()" style="flex-shrink:0">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="bill-items" id="bill-items-list"></div>
+    <div class="bill-total" id="bill-total">
+      <label>TOTAL</label><span>₹0</span>
+    </div>
+    <div class="modal-body" style="padding-top:10px">
+      <div class="form-2col">
+        <div class="form-row"><label>Discount (₹)</label><input type="number" id="bill-discount" placeholder="0" min="0" oninput="updateBillTotal()"/></div>
+        <div class="form-row"><label>Advance Paid (₹)</label><input type="number" id="bill-advance" placeholder="0" min="0"/></div>
+      </div>
+      <div class="form-row"><label>Payment Mode</label>
+        <select id="bill-pay-mode"><option>Cash</option><option>UPI / GPay</option><option>Bank Transfer</option><option>Udhar (Credit)</option></select>
+      </div>
+      <div class="form-row"><label>Note</label><input type="text" id="bill-note" placeholder="e.g. Diwali purchase"/></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-whatsapp btn-sm" onclick="sendBillWhatsApp()" style="flex-shrink:0">💬 WhatsApp</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveBill()">✅ Confirm Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- STORE SETTINGS -->
+<div class="modal-bg" id="modal-store-settings">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>🏪 Store Settings</h3>
+      <button class="modal-close" onclick="closeModal('modal-store-settings')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row"><label>Store Name</label><input type="text" id="set-name" placeholder="Rinky's Collections"/></div>
+      <div class="form-row"><label>Owner Name</label><input type="text" id="set-owner" placeholder="Rinky Devi"/></div>
+      <div class="form-row"><label>Phone / WhatsApp</label><input type="tel" id="set-phone" placeholder="9876543210"/></div>
+      <div class="form-row"><label>Address</label><textarea id="set-addr" placeholder="Shop address" style="min-height:55px"></textarea></div>
+      <div class="form-row"><label>UPI ID</label><input type="text" id="set-upi" placeholder="rinky@upi"/></div>
+      <div class="form-row"><label>GST Number (optional)</label><input type="text" id="set-gst" placeholder="22XXXXX1234A1Z5"/></div>
+    </div>
+    <div class="form-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-store-settings')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveStoreSettings()">💾 Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-bg" id="modal-export">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>📤 Export & Reports</h3>
+      <button class="modal-close" onclick="closeModal('modal-export')">✕</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-success btn-block" onclick="exportCSV('stock')">📋 Export Stock Inventory (.csv)</button>
+      <button class="btn btn-success btn-block" onclick="exportCSV('customers')">👥 Export Customer Ledger (.csv)</button>
+      <button class="btn btn-success btn-block" onclick="exportCSV('manufacturers')">🏭 Export Manufacturer Accounts (.csv)</button>
+      <button class="btn btn-success btn-block" onclick="exportCSV('transactions')">💸 Export All Transactions (.csv)</button>
+      <div class="divider"></div>
+      <button class="btn btn-primary btn-block" onclick="exportPDF()">🖨️ Print Full Ledger Report</button>
+      <button class="btn btn-whatsapp btn-block" onclick="sendWhatsAppReport()">💬 Send Summary on WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH MODAL -->
+<div class="modal-bg" id="modal-search">
+  <div class="modal" style="border-radius:var(--r-lg)">
+    <div class="modal-hdr">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:var(--primary-subtle);border-radius:var(--r-full);padding:7px 14px">
+        <span>🔍</span>
+        <input type="text" id="search-input" placeholder="Search sarees, customers, suppliers..." style="border:none;background:none;outline:none;flex:1;font-size:.88rem;font-family:var(--sans);color:var(--text)"/>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-search')" style="margin-left:8px">✕</button>
+    </div>
+    <div id="search-results" style="padding:10px 14px;min-height:120px"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+<input type="file" id="restore-input" accept=".json" style="display:none" onchange="restoreBackup(this)"/>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+const DB_KEY = 'rinky_v2';
+let db = loadDB();
+
+function loadDB() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY)) || defaultDB(); }
+  catch { return defaultDB(); }
+}
+function defaultDB() {
+  return {
+    store: { name:"Rinky's Collections", owner:"Rinky Devi", phone:"", addr:"", upi:"", gst:"" },
+    sarees: [
+      { id:'s1', title:'Banarasi Bridal Silk Saree', code:'BNR-001', fabric:'Banarasi', color:'Ruby Red', cost:4500, price:7500, qty:3, minQty:2, mfrId:'m1', desc:'Pure zari work, bridal collection', date: Date.now()-86400000*3 },
+      { id:'s2', title:'Chanderi Cotton Silk Saree', code:'CHN-002', fabric:'Chanderi', color:'Mint Green', cost:1800, price:3200, qty:8, minQty:3, mfrId:'m2', desc:'Light weight, daily wear', date: Date.now()-86400000*5 },
+      { id:'s3', title:'Kanjivaram Silk Saree', code:'KJV-003', fabric:'Kanjivaram', color:'Gold Peacock', cost:6000, price:10500, qty:1, minQty:2, mfrId:'m1', desc:'Temple border, wedding special', date: Date.now()-86400000*7 },
+      { id:'s4', title:'Georgette Gotta Patti Saree', code:'GGT-004', fabric:'Georgette', color:'Royal Blue', cost:2200, price:3800, qty:5, minQty:2, mfrId:'m3', desc:'Party wear, embroidery work', date: Date.now()-86400000*2 },
+      { id:'s5', title:'Bandhani Silk Saree', code:'BND-005', fabric:'Bandhani', color:'Pink & Yellow', cost:1500, price:2800, qty:0, minQty:2, mfrId:'m3', desc:'Rajasthani tie-dye, festive', date: Date.now()-86400000*10 },
+    ],
+    customers: [
+      { id:'c1', name:'Anjali Verma', phone:'9876543210', city:'Jaipur', addr:'', udhar:4200, tag:'VIP', notes:'Always pays on time', date: Date.now()-86400000*30 },
+      { id:'c2', name:'Priya Sharma', phone:'9123456789', city:'Delhi', addr:'', udhar:1500, tag:'Regular', notes:'', date: Date.now()-86400000*20 },
+      { id:'c3', name:'Sunita Gupta', phone:'9988776655', city:'Mumbai', addr:'', udhar:0, tag:'Wholesale', notes:'Bulk buyer, needs invoice', date: Date.now()-86400000*15 },
+      { id:'c4', name:'Kavita Jain', phone:'9871234567', city:'Jaipur', addr:'', udhar:800, tag:'Regular', notes:'', date: Date.now()-86400000*5 },
+    ],
+    manufacturers: [
+      { id:'m1', name:'Varanasi Silk House', contact:'Ramesh Pandey', phone:'9451234567', city:'Varanasi', spec:'Banarasi Silk, Kanjivaram', credit:18000, limit:100000, notes:'Direct loom, best quality', date: Date.now()-86400000*60 },
+      { id:'m2', name:'Chanderi Weavers Co', contact:'Suresh Malviya', phone:'9988112233', city:'Chanderi', spec:'Chanderi, Cotton Silk', credit:5500, limit:50000, notes:'State award winner', date: Date.now()-86400000*45 },
+      { id:'m3', name:'Jaipur Fabrics Ltd', contact:'Ashok Singhania', phone:'9414512345', city:'Jaipur', spec:'Georgette, Bandhani, Prints', credit:12000, limit:75000, notes:'Fast delivery, negotiable', date: Date.now()-86400000*30 },
+    ],
+    transactions: [
+      { id:'t1', type:'sale', custId:'c1', amount:4200, mode:'Udhar', note:'3 sarees - Banarasi lot', date: Date.now()-86400000*8 },
+      { id:'t2', type:'payment', custId:'c1', amount:2000, mode:'UPI / GPay', note:'Partial payment Oct', date: Date.now()-86400000*3 },
+      { id:'t3', type:'sale', custId:'c2', amount:1500, mode:'Udhar', note:'Chanderi Cotton saree', date: Date.now()-86400000*12 },
+      { id:'t4', type:'purchase', mfrId:'m1', amount:18000, note:'Oct stock lot - 6 sarees', date: Date.now()-86400000*20 },
+      { id:'t5', type:'payment_mfr', mfrId:'m1', amount:5000, note:'Partial payment Aug', date: Date.now()-86400000*10 },
+    ],
+    billItems: []
+  };
+}
+
+function saveDB() {
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+// ══════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════
+let currentPage = 'dash';
+function switchPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if (btn) btn.classList.add('active');
+  currentPage = page;
+  renderPage(page);
+  closeFab();
+}
+
+function renderPage(page) {
+  if (page === 'dash') renderDash();
+  else if (page === 'stock') renderStock();
+  else if (page === 'cust') renderCustomers();
+  else if (page === 'mfr') renderManufacturers();
+}
+
+// ══════════════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════════════
+function renderDash() {
+  const now = new Date();
+  document.getElementById('dash-date').textContent = now.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  const totalStock = db.sarees.reduce((s,i)=>s+i.qty,0);
+  const stockVal = db.sarees.reduce((s,i)=>s+i.price*i.qty,0);
+  const totalDues = db.customers.reduce((s,c)=>s+c.udhar,0);
+  const totalMfrCredit = db.manufacturers.reduce((s,m)=>s+m.credit,0);
+  const lowStock = db.sarees.filter(s=>s.qty>0&&s.qty<=s.minQty).length;
+  const outStock = db.sarees.filter(s=>s.qty===0).length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card gold">
+      <div class="stat-icon">🛍️</div>
+      <div class="stat-val">₹${fmt(stockVal)}</div>
+      <div class="stat-label">Stock Value</div>
+      <div class="stat-sub">${totalStock} sarees in store</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-icon">📊</div>
+      <div class="stat-val">₹${fmt(totalDues)}</div>
+      <div class="stat-label">Customer Dues</div>
+      <div class="stat-sub">${db.customers.filter(c=>c.udhar>0).length} customers pending</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-icon">🏭</div>
+      <div class="stat-val">₹${fmt(totalMfrCredit)}</div>
+      <div class="stat-label">Mfr Credit Owed</div>
+      <div class="stat-sub">${db.manufacturers.length} suppliers</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon">👥</div>
+      <div class="stat-val">${db.customers.length}</div>
+      <div class="stat-label">Total Customers</div>
+      <div class="stat-sub">${db.customers.filter(c=>c.tag==='VIP').length} VIP</div>
+    </div>`;
+
+  // Alerts
+  let alerts = '';
+  if (outStock > 0) alerts += `<div class="alert-strip danger" onclick="filterStock('out')">🚨 ${outStock} saree(s) OUT OF STOCK – restock needed</div>`;
+  if (lowStock > 0) alerts += `<div class="alert-strip warn" onclick="filterStock('low')">⚠️ ${lowStock} saree(s) running low on stock</div>`;
+  document.getElementById('alerts-area').innerHTML = alerts ? `<div style="padding:10px 14px 2px">${alerts}</div>` : '';
+
+  // Recent activity
+  const recent = [...db.transactions].sort((a,b)=>b.date-a.date).slice(0,6);
+  if (!recent.length) {
+    document.getElementById('activity-list').innerHTML = '<div class="empty"><div class="empty-icon">📋</div><h3>No activity yet</h3><p>Add customers and record transactions to see activity here.</p></div>';
+    return;
+  }
+  document.getElementById('activity-list').innerHTML = recent.map(t => {
+    const cust = t.custId ? db.customers.find(c=>c.id===t.custId) : null;
+    const mfr = t.mfrId ? db.manufacturers.find(m=>m.id===t.mfrId) : null;
+    const entity = cust || mfr;
+    const name = entity ? entity.name : 'Walk-in';
+    const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const isCredit = ['sale','purchase'].includes(t.type);
+    const icon = { sale:'🛍️', payment:'💸', purchase:'📦', payment_mfr:'💰', advance:'⬆️', return:'↩️', discount:'🏷️' }[t.type] || '💳';
+    const typeLabel = { sale:'Sale', payment:'Payment Rcvd', purchase:'Stock Purchase', payment_mfr:'Paid to Mfr', advance:'Advance', return:'Return', discount:'Discount' }[t.type] || t.type;
+    const avatarBg = cust ? '#f9f0f6' : '#fff3e0';
+    const avatarColor = cust ? 'var(--primary)' : 'var(--gold-dark)';
+    return `<div class="act-item">
+      <div class="act-avatar" style="background:${avatarBg};color:${avatarColor}">${initials}</div>
+      <div class="act-info">
+        <div class="act-name">${name}</div>
+        <div class="act-desc">${icon} ${typeLabel}${t.note ? ' · '+t.note : ''}</div>
+      </div>
+      <div class="act-amt">
+        <div class="amount ${isCredit?'dr':'cr'}">${isCredit?'+':'-'}₹${fmt(t.amount)}</div>
+        <div class="time">${timeAgo(t.date)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  STOCK
+// ══════════════════════════════════════════════════════
+let stockFilter = 'all';
+function renderStock(filter) {
+  if (filter !== undefined) stockFilter = filter;
+  let sarees = [...db.sarees];
+  if (stockFilter === 'low') sarees = sarees.filter(s=>s.qty>0&&s.qty<=s.minQty);
+  else if (stockFilter === 'out') sarees = sarees.filter(s=>s.qty===0);
+  else if (stockFilter !== 'all') sarees = sarees.filter(s=>s.fabric===stockFilter);
+
+  const totalPcs = db.sarees.reduce((s,i)=>s+i.qty,0);
+  const totalVal = db.sarees.reduce((s,i)=>s+i.price*i.qty,0);
+  const totalCost = db.sarees.reduce((s,i)=>s+i.cost*i.qty,0);
+  document.getElementById('stock-ribbon').innerHTML = `
+    <div class="rib-item"><label>Total Sarees</label><div class="rib-val" style="color:var(--primary)">${db.sarees.length}</div></div>
+    <div class="rib-item"><label>Total Pieces</label><div class="rib-val">${totalPcs}</div></div>
+    <div class="rib-item"><label>Stock Value</label><div class="rib-val" style="color:var(--success)">₹${fmt(totalVal)}</div></div>
+    <div class="rib-item"><label>Cost Value</label><div class="rib-val" style="color:var(--muted)">₹${fmt(totalCost)}</div></div>
+    <div class="rib-item"><label>Low Stock</label><div class="rib-val" style="color:var(--warn)">${db.sarees.filter(s=>s.qty>0&&s.qty<=s.minQty).length}</div></div>`;
+
+  if (!sarees.length) {
+    document.getElementById('stock-list').innerHTML = '<div class="empty"><div class="empty-icon">📦</div><h3>No sarees found</h3><p>Add your first saree to inventory using the + Add button.</p></div>';
+    return;
+  }
+  document.getElementById('stock-list').innerHTML = sarees.map(s => {
+    const mfr = s.mfrId ? db.manufacturers.find(m=>m.id===s.mfrId) : null;
+    let badge = '';
+    if (s.qty === 0) badge = `<span class="stock-badge badge-out">⚫ Out of Stock</span>`;
+    else if (s.qty <= s.minQty) badge = `<span class="stock-badge badge-low">⚠️ Low: ${s.qty} left</span>`;
+    else badge = `<span class="stock-badge badge-ok">✓ ${s.qty} in stock</span>`;
+    const margin = s.cost > 0 ? Math.round((s.price - s.cost)/s.cost*100) : 0;
+    return `<div class="card" onclick="openSareeDetail('${s.id}')">
+      <div class="card-head">
+        <div class="card-img">🪡</div>
+        <div style="flex:1;min-width:0">
+          <div class="card-title">${s.title}</div>
+          <div class="card-code">${s.code || 'No Code'} ${mfr ? '· '+mfr.name : ''}</div>
+        </div>
+        <div class="card-right">
+          <div class="price-tag">₹${fmt(s.price)}</div>
+          ${badge}
+        </div>
+      </div>
+      <div class="card-tags">
+        ${s.fabric ? `<span class="tag">${s.fabric}</span>` : ''}
+        ${s.color ? `<span class="tag gold-tag">${s.color}</span>` : ''}
+        ${margin > 0 ? `<span class="tag" style="background:var(--success-bg);color:#065f46">${margin}% margin</span>` : ''}
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEditSaree('${s.id}')">✏️ Edit</button>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openSareeDetail('${s.id}')">View Details</button>
+        <button class="btn btn-whatsapp btn-sm" onclick="event.stopPropagation();orderOnWhatsApp('${s.id}')">💬</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterStock(f, btn) {
+  stockFilter = f;
+  document.querySelectorAll('#page-stock .chip').forEach(c=>c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderStock();
+}
+
+// ══════════════════════════════════════════════════════
+//  CUSTOMERS
+// ══════════════════════════════════════════════════════
+let custFilter = 'all';
+function renderCustomers(filter) {
+  if (filter !== undefined) custFilter = filter;
+  let custs = [...db.customers];
+  if (custFilter === 'dues') custs = custs.filter(c=>c.udhar>0);
+  else if (custFilter === 'paid') custs = custs.filter(c=>c.udhar===0);
+  else if (custFilter === 'vip') custs = custs.filter(c=>c.tag==='VIP');
+
+  const totalDues = db.customers.reduce((s,c)=>s+c.udhar,0);
+  const withDues = db.customers.filter(c=>c.udhar>0).length;
+  document.getElementById('cust-ribbon').innerHTML = `
+    <div class="rib-item"><label>Total Customers</label><div class="rib-val" style="color:var(--primary)">${db.customers.length}</div></div>
+    <div class="rib-item"><label>Total Dues</label><div class="rib-val" style="color:var(--danger)">₹${fmt(totalDues)}</div></div>
+    <div class="rib-item"><label>Has Dues</label><div class="rib-val" style="color:var(--warn)">${withDues}</div></div>
+    <div class="rib-item"><label>VIP</label><div class="rib-val" style="color:var(--gold-dark)">${db.customers.filter(c=>c.tag==='VIP').length}</div></div>`;
+
+  if (!custs.length) {
+    document.getElementById('cust-list').innerHTML = '<div class="empty"><div class="empty-icon">👥</div><h3>No customers found</h3><p>Add your first customer using the + Add button.</p></div>';
+    return;
+  }
+  document.getElementById('cust-list').innerHTML = custs.map(c => {
+    const txns = db.transactions.filter(t=>t.custId===c.id);
+    const totalBiz = txns.filter(t=>t.type==='sale').reduce((s,t)=>s+t.amount,0);
+    const initials = c.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div class="card">
+      <div class="card-head">
+        <div class="card-img" style="background:${c.udhar>0?'#fef2f2':'#ecfdf5'};font-size:.95rem;font-weight:700;color:${c.udhar>0?'var(--danger)':'var(--success)'}">${initials}</div>
+        <div style="flex:1;min-width:0">
+          <div class="card-title">${c.name} ${c.tag==='VIP'?'⭐':''}</div>
+          <div class="card-code">📞 ${c.phone}${c.city?' · '+c.city:''}</div>
+        </div>
+        <div class="card-right">
+          ${c.udhar>0 ? `<div class="price-tag" style="color:var(--danger)">₹${fmt(c.udhar)}</div><div style="font-size:.65rem;color:var(--danger);margin-top:2px">Dues</div>` : `<div class="price-tag" style="color:var(--success)">✓ Clear</div>`}
+        </div>
+      </div>
+      ${c.udhar>0 ? `<div class="cust-udhar"><div class="udhar-left"><label>Udhar Balance</label><div class="udhar-amt">₹${fmt(c.udhar)}</div></div><button class="btn btn-danger btn-sm" onclick="event.stopPropagation();openPayCust('${c.id}')">💸 Collect</button></div>` : ''}
+      <div class="cust-meta">
+        <div class="meta-item"><label>Total Business</label><span>₹${fmt(totalBiz)}</span></div>
+        <div class="meta-item"><label>Transactions</label><span>${txns.length}</span></div>
+        <div class="meta-item"><label>Tag</label><span>${c.tag}</span></div>
+        <div class="meta-item"><label>City</label><span>${c.city||'-'}</span></div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-outline btn-sm" onclick="openEditCustomer('${c.id}')">✏️ Edit</button>
+        <button class="btn btn-primary btn-sm" onclick="openCustDetail('${c.id}')">📋 Ledger</button>
+        <button class="btn btn-whatsapp btn-sm" onclick="sendCustWhatsApp('${c.id}')">💬</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterCustomers(f, btn) {
+  custFilter = f;
+  document.querySelectorAll('#page-cust .chip').forEach(c=>c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderCustomers();
+}
+
+// ══════════════════════════════════════════════════════
+//  MANUFACTURERS
+// ══════════════════════════════════════════════════════
+function renderManufacturers() {
+  const totalCredit = db.manufacturers.reduce((s,m)=>s+m.credit,0);
+  document.getElementById('mfr-ribbon').innerHTML = `
+    <div class="rib-item"><label>Manufacturers</label><div class="rib-val" style="color:var(--primary)">${db.manufacturers.length}</div></div>
+    <div class="rib-item"><label>Total Credit</label><div class="rib-val" style="color:var(--warn)">₹${fmt(totalCredit)}</div></div>
+    <div class="rib-item"><label>With Balance</label><div class="rib-val">${db.manufacturers.filter(m=>m.credit>0).length}</div></div>`;
+
+  if (!db.manufacturers.length) {
+    document.getElementById('mfr-list').innerHTML = '<div class="empty"><div class="empty-icon">🏭</div><h3>No manufacturers yet</h3><p>Add your fabric suppliers to track credit and purchases.</p></div>';
+    return;
+  }
+  document.getElementById('mfr-list').innerHTML = db.manufacturers.map(m => {
+    const txns = db.transactions.filter(t=>t.mfrId===m.id);
+    const totalPurchased = txns.filter(t=>t.type==='purchase').reduce((s,t)=>s+t.amount,0);
+    const totalPaid = txns.filter(t=>t.type==='payment_mfr').reduce((s,t)=>s+t.amount,0);
+    const limitPct = m.limit > 0 ? Math.min(100, Math.round(m.credit/m.limit*100)) : 0;
+    const initials = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div class="card">
+      <div class="card-head">
+        <div class="card-img" style="background:#fff3e0;color:var(--gold-dark);font-size:.9rem;font-weight:700">${initials}</div>
+        <div style="flex:1;min-width:0">
+          <div class="card-title">${m.name}</div>
+          <div class="card-code">${m.contact ? m.contact+' · ':''} ${m.city||''}</div>
+        </div>
+        <div class="card-right">
+          <div class="price-tag" style="color:var(--warn)">₹${fmt(m.credit)}</div>
+          <div style="font-size:.65rem;color:var(--muted2);margin-top:2px">Credit Owed</div>
+        </div>
+      </div>
+      ${m.spec ? `<div class="card-tags"><span class="tag gold-tag">🧵 ${m.spec}</span></div>` : ''}
+      ${m.credit>0?`<div class="mfr-credit">
+        <div><label>Outstanding Credit</label><div class="credit-amt">₹${fmt(m.credit)}</div></div>
+        <button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openPayMfr('${m.id}')">💰 Pay</button>
+      </div>`:''}
+      ${m.limit>0?`<div style="padding:8px 16px;border-top:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:4px"><span>Credit Used</span><span>${limitPct}% of ₹${fmt(m.limit)}</span></div><div style="background:var(--border);border-radius:99px;height:5px"><div style="width:${limitPct}%;background:${limitPct>80?'var(--danger)':limitPct>60?'var(--warn)':'var(--success)'};height:100%;border-radius:99px;transition:width .4s"></div></div></div>`:''}
+      <div class="cust-meta">
+        <div class="meta-item"><label>Total Purchased</label><span>₹${fmt(totalPurchased)}</span></div>
+        <div class="meta-item"><label>Total Paid</label><span>₹${fmt(totalPaid)}</span></div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-outline btn-sm" onclick="openEditMfr('${m.id}')">✏️ Edit</button>
+        <button class="btn btn-gold btn-sm" onclick="openMfrDetail('${m.id}')">📋 Ledger</button>
+        <button class="btn btn-primary btn-sm" onclick="openPayMfr('${m.id}')">💸 Transaction</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  SAREE CRUD
+// ══════════════════════════════════════════════════════
+function openAddSaree() {
+  document.getElementById('edit-saree-id').value = '';
+  document.getElementById('saree-modal-title').textContent = '🪡 Add New Saree to Stock';
+  ['s-title','s-code','s-color','s-desc'].forEach(id=>document.getElementById(id).value='');
+  ['s-cost','s-price','s-qty','s-min'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('s-fabric').value=''; document.getElementById('s-mfr').value='';
+  populateMfrSelect('s-mfr'); openModal('modal-add-saree');
+}
+function openEditSaree(id) {
+  const s = db.sarees.find(s=>s.id===id); if (!s) return;
+  document.getElementById('edit-saree-id').value = id;
+  document.getElementById('saree-modal-title').textContent = '✏️ Edit Saree Details';
+  document.getElementById('s-title').value = s.title;
+  document.getElementById('s-code').value = s.code||'';
+  document.getElementById('s-fabric').value = s.fabric||'';
+  document.getElementById('s-color').value = s.color||'';
+  document.getElementById('s-cost').value = s.cost||'';
+  document.getElementById('s-price').value = s.price||'';
+  document.getElementById('s-qty').value = s.qty||0;
+  document.getElementById('s-min').value = s.minQty||2;
+  document.getElementById('s-desc').value = s.desc||'';
+  populateMfrSelect('s-mfr', s.mfrId);
+  openModal('modal-add-saree');
+}
+function saveSaree() {
+  const title = document.getElementById('s-title').value.trim();
+  const price = parseFloat(document.getElementById('s-price').value);
+  if (!title) { showToast('❌ Please enter saree title'); return; }
+  if (!price) { showToast('❌ Please enter selling price'); return; }
+  const id = document.getElementById('edit-saree-id').value || 's'+Date.now();
+  const saree = {
+    id, title, code: document.getElementById('s-code').value.trim(),
+    fabric: document.getElementById('s-fabric').value, color: document.getElementById('s-color').value.trim(),
+    cost: parseFloat(document.getElementById('s-cost').value)||0, price,
+    qty: parseInt(document.getElementById('s-qty').value)||0,
+    minQty: parseInt(document.getElementById('s-min').value)||2,
+    mfrId: document.getElementById('s-mfr').value,
+    desc: document.getElementById('s-desc').value.trim(), date: Date.now()
+  };
+  const idx = db.sarees.findIndex(s=>s.id===id);
+  if (idx>=0) db.sarees[idx]=saree; else db.sarees.push(saree);
+  saveDB(); closeModal('modal-add-saree'); renderStock(); renderDash();
+  showToast('✅ Saree saved to inventory');
+}
+
+function openSareeDetail(id) {
+  const s = db.sarees.find(x=>x.id===id); if (!s) return;
+  const mfr = s.mfrId ? db.manufacturers.find(m=>m.id===s.mfrId) : null;
+  document.getElementById('saree-detail-title').textContent = s.title;
+  const margin = s.cost>0 ? Math.round((s.price-s.cost)/s.cost*100) : 0;
+  let badge = s.qty===0 ? `<span class="stock-badge badge-out">⚫ Out of Stock</span>` :
+    s.qty<=s.minQty ? `<span class="stock-badge badge-low">⚠️ Low Stock</span>` :
+    `<span class="stock-badge badge-ok">✓ In Stock</span>`;
+  document.getElementById('saree-detail-body').innerHTML = `
+    <div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:20px;color:#fff;text-align:center">
+      <div style="font-size:4rem;margin-bottom:8px">🪡</div>
+      <h3 style="font-family:var(--serif);font-size:1.1rem;margin-bottom:6px">${s.title}</h3>
+      <p style="font-size:.8rem;color:#ffffff99">${s.code||''} ${s.fabric||''}</p>
+      ${badge}
+    </div>
+    <div style="padding:16px 18px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+        <div class="lm-card"><label>Sell Price</label><div class="lm-val" style="color:var(--primary)">₹${fmt(s.price)}</div></div>
+        <div class="lm-card"><label>Cost Price</label><div class="lm-val" style="color:var(--muted)">₹${fmt(s.cost)}</div></div>
+        <div class="lm-card"><label>Margin</label><div class="lm-val" style="color:var(--success)">${margin}%</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="lm-card"><label>In Stock</label><div class="lm-val">${s.qty} pcs</div></div>
+        <div class="lm-card"><label>Stock Value</label><div class="lm-val">₹${fmt(s.price*s.qty)}</div></div>
+      </div>
+      ${mfr?`<div style="background:var(--primary-subtle);border-radius:var(--r-md);padding:10px 14px;margin-bottom:14px;font-size:.82rem"><strong>🏭 Supplier:</strong> ${mfr.name}<br><span style="color:var(--muted)">${mfr.city||''}</span></div>`:''}
+      ${s.color?`<div style="display:flex;gap:6px;margin-bottom:10px"><span class="tag gold-tag">🎨 ${s.color}</span>${s.fabric?`<span class="tag">${s.fabric}</span>`:''}</div>`:''}
+      ${s.desc?`<p style="font-size:.82rem;color:var(--muted);line-height:1.5;margin-bottom:14px">${s.desc}</p>`:''}
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-primary btn-block" onclick="openEditSaree('${id}');closeModal('modal-saree-detail')">✏️ Edit This Saree</button>
+        <button class="btn btn-whatsapp btn-block" onclick="orderOnWhatsApp('${id}')">💬 Order on WhatsApp</button>
+        <button class="btn btn-danger btn-block" onclick="deleteSaree('${id}')">🗑️ Delete from Inventory</button>
+      </div>
+    </div>`;
+  openModal('modal-saree-detail');
+}
+
+function deleteSaree(id) {
+  if (!confirm('Delete this saree from inventory?')) return;
+  db.sarees = db.sarees.filter(s=>s.id!==id); saveDB();
+  closeModal('modal-saree-detail'); renderStock(); renderDash();
+  showToast('🗑️ Saree deleted');
+}
+
+function orderOnWhatsApp(id) {
+  const s = db.sarees.find(x=>x.id===id); if (!s) return;
+  const phone = db.store.phone;
+  const msg = `Rinky's Collections - ${s.title}%0A%0ACode: ${s.code||'N/A'}%0AFabric: ${s.fabric||''}%0AColor: ${s.color||''}%0APrice: ₹${s.price}%0A%0AInterested? Please contact us!`;
+  window.open(`https://wa.me/${phone}?text=${msg}`,'_blank');
+}
+
+// ══════════════════════════════════════════════════════
+//  CUSTOMER CRUD
+// ══════════════════════════════════════════════════════
+function openAddCustomer() {
+  document.getElementById('edit-cust-id').value='';
+  document.getElementById('cust-modal-title').textContent='👤 Add New Customer';
+  ['c-name','c-phone','c-city','c-addr','c-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('c-udhar').value=''; document.getElementById('c-tag').value='Regular';
+  openModal('modal-add-customer');
+}
+function openEditCustomer(id) {
+  const c = db.customers.find(x=>x.id===id); if (!c) return;
+  document.getElementById('edit-cust-id').value=id;
+  document.getElementById('cust-modal-title').textContent='✏️ Edit Customer';
+  document.getElementById('c-name').value=c.name;
+  document.getElementById('c-phone').value=c.phone;
+  document.getElementById('c-city').value=c.city||'';
+  document.getElementById('c-addr').value=c.addr||'';
+  document.getElementById('c-udhar').value=c.udhar||0;
+  document.getElementById('c-tag').value=c.tag||'Regular';
+  document.getElementById('c-notes').value=c.notes||'';
+  openModal('modal-add-customer');
+}
+function saveCustomer() {
+  const name = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  if (!name) { showToast('❌ Customer name required'); return; }
+  if (!phone) { showToast('❌ Phone number required'); return; }
+  const id = document.getElementById('edit-cust-id').value || 'c'+Date.now();
+  const cust = {
+    id, name, phone, city: document.getElementById('c-city').value.trim(),
+    addr: document.getElementById('c-addr').value.trim(),
+    udhar: parseFloat(document.getElementById('c-udhar').value)||0,
+    tag: document.getElementById('c-tag').value,
+    notes: document.getElementById('c-notes').value.trim(), date: Date.now()
+  };
+  const idx = db.customers.findIndex(c=>c.id===id);
+  if (idx>=0) db.customers[idx]=cust; else db.customers.push(cust);
+  saveDB(); closeModal('modal-add-customer'); renderCustomers(); renderDash();
+  showToast('✅ Customer saved');
+}
+function openCustDetail(id) {
+  const c = db.customers.find(x=>x.id===id); if (!c) return;
+  const txns = db.transactions.filter(t=>t.custId===id).sort((a,b)=>b.date-a.date);
+  const totalBiz = txns.filter(t=>t.type==='sale').reduce((s,t)=>s+t.amount,0);
+  const totalPaid = txns.filter(t=>t.type==='payment').reduce((s,t)=>s+t.amount,0);
+  document.getElementById('cust-detail-title').textContent = c.name+' – Ledger';
+  document.getElementById('cust-detail-body').innerHTML = `
+    <div class="ledger-balance">
+      <label>Current Udhar Balance</label>
+      <div class="bal-amt">₹${fmt(c.udhar)}</div>
+      <div class="bal-sub">${c.phone}${c.city?' · '+c.city:''}</div>
+    </div>
+    <div class="ledger-meta">
+      <div class="lm-card"><label>Total Sales</label><div class="lm-val" style="color:var(--danger)">₹${fmt(totalBiz)}</div></div>
+      <div class="lm-card"><label>Total Paid</label><div class="lm-val" style="color:var(--success)">₹${fmt(totalPaid)}</div></div>
+    </div>
+    <div style="padding:0 14px 10px;display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="closeModal('modal-cust-detail');openPayCust('${id}')">💸 Record Transaction</button>
+      <button class="btn btn-whatsapp btn-sm" onclick="sendCustWhatsApp('${id}')">💬</button>
+    </div>
+    <div style="padding:0 14px 6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)">Transaction History</div>
+    <div class="txn-list">
+      ${txns.length ? txns.map(t=>{
+        const isCredit = t.type==='sale';
+        const icon = {sale:'🛍️',payment:'💸',advance:'⬆️',return:'↩️'}[t.type]||'💳';
+        const label = {sale:'Sale',payment:'Payment Received',advance:'Advance',return:'Return'}[t.type]||t.type;
+        return `<div class="txn-item">
+          <div class="txn-icon" style="background:${isCredit?'var(--danger-bg)':'var(--success-bg)'}">${icon}</div>
+          <div class="txn-info"><div class="txn-title">${label}</div><div class="txn-date">${t.note||''} · ${new Date(t.date).toLocaleDateString('en-IN')}</div></div>
+          <div class="txn-amt ${isCredit?'dr':'cr'}">${isCredit?'+':'-'}₹${fmt(t.amount)}</div>
+        </div>`;
+      }).join('') : '<div class="empty" style="padding:24px"><div class="empty-icon" style="font-size:2rem">📋</div><p>No transactions yet</p></div>'}
+    </div>`;
+  openModal('modal-cust-detail');
+}
+function openPayCust(id) {
+  const c = db.customers.find(x=>x.id===id); if (!c) return;
+  document.getElementById('pay-cust-id').value = id;
+  document.getElementById('pay-cust-summary').innerHTML = `<strong>${c.name}</strong> &nbsp;·&nbsp; Current Udhar: <strong style="color:var(--danger)">₹${fmt(c.udhar)}</strong>`;
+  document.getElementById('pay-amount').value=''; document.getElementById('pay-note').value='';
+  document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
+  openModal('modal-pay-cust');
+}
+function saveCustomerTxn() {
+  const id = document.getElementById('pay-cust-id').value;
+  const c = db.customers.find(x=>x.id===id); if (!c) return;
+  const amount = parseFloat(document.getElementById('pay-amount').value);
+  if (!amount || amount<=0) { showToast('❌ Enter valid amount'); return; }
+  const type = document.getElementById('pay-type').value;
+  const txn = {
+    id: 't'+Date.now(), type, custId: id, amount,
+    mode: document.getElementById('pay-mode').value,
+    note: document.getElementById('pay-note').value,
+    date: new Date(document.getElementById('pay-date').value).getTime() || Date.now()
+  };
+  db.transactions.push(txn);
+  if (type==='payment'||type==='advance') c.udhar = Math.max(0, c.udhar - amount);
+  else if (type==='sale') c.udhar += amount;
+  else if (type==='return') c.udhar = Math.max(0, c.udhar - amount);
+  saveDB(); closeModal('modal-pay-cust'); renderCustomers(); renderDash();
+  showToast('✅ Transaction recorded');
+}
+
+function sendCustWhatsApp(id) {
+  const c = db.customers.find(x=>x.id===id); if (!c) return;
+  const msg = c.udhar > 0
+    ? `Jai Mata Di! 🙏%0ANamaste ${c.name} Ji,%0A%0AYour current outstanding balance at *Rinky's Collections* is:%0A*₹${fmt(c.udhar)}*%0A%0AKindly clear at your earliest convenience.%0A%0AThank you! 🪡`
+    : `Jai Mata Di! 🙏%0ANamaste ${c.name} Ji,%0A%0AThank you for your payment! Your account at *Rinky's Collections* is now clear. 😊%0A%0AThank you! 🪡`;
+  window.open(`https://wa.me/91${c.phone}?text=${msg}`,'_blank');
+}
+
+// ══════════════════════════════════════════════════════
+//  MANUFACTURER CRUD
+// ══════════════════════════════════════════════════════
+function openAddMfr() {
+  document.getElementById('edit-mfr-id').value='';
+  document.getElementById('mfr-modal-title').textContent='🏭 Add Manufacturer';
+  ['m-name','m-contact','m-phone','m-city','m-spec','m-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-credit').value=''; document.getElementById('m-limit').value='100000';
+  openModal('modal-add-mfr');
+}
+function openEditMfr(id) {
+  const m = db.manufacturers.find(x=>x.id===id); if (!m) return;
+  document.getElementById('edit-mfr-id').value=id;
+  document.getElementById('mfr-modal-title').textContent='✏️ Edit Manufacturer';
+  document.getElementById('m-name').value=m.name; document.getElementById('m-contact').value=m.contact||'';
+  document.getElementById('m-phone').value=m.phone||''; document.getElementById('m-city').value=m.city||'';
+  document.getElementById('m-spec').value=m.spec||''; document.getElementById('m-credit').value=m.credit||0;
+  document.getElementById('m-limit').value=m.limit||100000; document.getElementById('m-notes').value=m.notes||'';
+  openModal('modal-add-mfr');
+}
+function saveMfr() {
+  const name = document.getElementById('m-name').value.trim();
+  if (!name) { showToast('❌ Manufacturer name required'); return; }
+  const id = document.getElementById('edit-mfr-id').value || 'm'+Date.now();
+  const mfr = {
+    id, name, contact: document.getElementById('m-contact').value.trim(),
+    phone: document.getElementById('m-phone').value.trim(), city: document.getElementById('m-city').value.trim(),
+    spec: document.getElementById('m-spec').value.trim(),
+    credit: parseFloat(document.getElementById('m-credit').value)||0,
+    limit: parseFloat(document.getElementById('m-limit').value)||100000,
+    notes: document.getElementById('m-notes').value.trim(), date: Date.now()
+  };
+  const idx = db.manufacturers.findIndex(m=>m.id===id);
+  if (idx>=0) db.manufacturers[idx]=mfr; else db.manufacturers.push(mfr);
+  saveDB(); closeModal('modal-add-mfr'); renderManufacturers(); renderDash();
+  showToast('✅ Manufacturer saved');
+}
+function openMfrDetail(id) {
+  const m = db.manufacturers.find(x=>x.id===id); if (!m) return;
+  const txns = db.transactions.filter(t=>t.mfrId===id).sort((a,b)=>b.date-a.date);
+  const totalPurchased = txns.filter(t=>t.type==='purchase').reduce((s,t)=>s+t.amount,0);
+  const totalPaid = txns.filter(t=>t.type==='payment_mfr').reduce((s,t)=>s+t.amount,0);
+  document.getElementById('mfr-detail-title').textContent = m.name+' – Ledger';
+  document.getElementById('mfr-detail-body').innerHTML = `
+    <div class="ledger-balance" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold-light))">
+      <label>Outstanding Credit</label>
+      <div class="bal-amt">₹${fmt(m.credit)}</div>
+      <div class="bal-sub">${m.spec||''} · ${m.city||''}</div>
+    </div>
+    <div class="ledger-meta">
+      <div class="lm-card"><label>Total Purchased</label><div class="lm-val" style="color:var(--warn)">₹${fmt(totalPurchased)}</div></div>
+      <div class="lm-card"><label>Total Paid</label><div class="lm-val" style="color:var(--success)">₹${fmt(totalPaid)}</div></div>
+    </div>
+    <div style="padding:0 14px 10px;display:flex;gap:8px">
+      <button class="btn btn-gold" style="flex:1" onclick="closeModal('modal-mfr-detail');openPayMfr('${id}')">💸 Add Transaction</button>
+    </div>
+    <div style="padding:0 14px 6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)">Transaction History</div>
+    <div class="txn-list">
+      ${txns.length ? txns.map(t=>{
+        const isCredit = t.type==='purchase';
+        const icon = {purchase:'📦',payment_mfr:'💰',return:'↩️',discount:'🏷️'}[t.type]||'💳';
+        const label = {purchase:'Stock Purchase',payment_mfr:'Payment Made',return:'Stock Return',discount:'Discount'}[t.type]||t.type;
+        return `<div class="txn-item">
+          <div class="txn-icon" style="background:${isCredit?'var(--warn-bg)':'var(--success-bg)'}">${icon}</div>
+          <div class="txn-info"><div class="txn-title">${label}</div><div class="txn-date">${t.note||''} · ${new Date(t.date).toLocaleDateString('en-IN')}</div></div>
+          <div class="txn-amt ${isCredit?'dr':'cr'}">${isCredit?'+':'-'}₹${fmt(t.amount)}</div>
+        </div>`;
+      }).join('') : '<div class="empty" style="padding:24px"><div class="empty-icon" style="font-size:2rem">📋</div><p>No transactions yet</p></div>'}
+    </div>`;
+  openModal('modal-mfr-detail');
+}
+function openPayMfr(id) {
+  const m = db.manufacturers.find(x=>x.id===id); if (!m) return;
+  document.getElementById('mfr-txn-id').value=id;
+  document.getElementById('mfr-txn-summary').innerHTML = `<strong>${m.name}</strong> &nbsp;·&nbsp; Current Credit: <strong style="color:var(--warn)">₹${fmt(m.credit)}</strong>`;
+  document.getElementById('mfr-txn-amount').value=''; document.getElementById('mfr-txn-note').value='';
+  document.getElementById('mfr-txn-date').value = new Date().toISOString().split('T')[0];
+  openModal('modal-pay-mfr');
+}
+function saveMfrTxn() {
+  const id = document.getElementById('mfr-txn-id').value;
+  const m = db.manufacturers.find(x=>x.id===id); if (!m) return;
+  const amount = parseFloat(document.getElementById('mfr-txn-amount').value);
+  if (!amount||amount<=0) { showToast('❌ Enter valid amount'); return; }
+  const type = document.getElementById('mfr-txn-type').value;
+  const txn = {
+    id: 't'+Date.now(), type: type==='payment'?'payment_mfr':type,
+    mfrId: id, amount, note: document.getElementById('mfr-txn-note').value,
+    date: new Date(document.getElementById('mfr-txn-date').value).getTime()||Date.now()
+  };
+  db.transactions.push(txn);
+  if (type==='purchase') m.credit += amount;
+  else if (type==='payment') m.credit = Math.max(0, m.credit - amount);
+  else if (type==='return'||type==='discount') m.credit = Math.max(0, m.credit - amount);
+  saveDB(); closeModal('modal-pay-mfr'); renderManufacturers(); renderDash();
+  showToast('✅ Manufacturer entry saved');
+}
+
+// ══════════════════════════════════════════════════════
+//  BILL
+// ══════════════════════════════════════════════════════
+let billItems = [];
+function openBill() {
+  billItems = [];
+  document.getElementById('bill-items-list').innerHTML = '';
+  document.getElementById('bill-total').innerHTML = '<label>TOTAL</label><span>₹0</span>';
+  document.getElementById('bill-discount').value = '';
+  document.getElementById('bill-advance').value = '';
+  populateCustSelect('bill-cust');
+  populateSareeSelect('bill-saree-select');
+  openModal('modal-bill');
+}
+function populateSareeSelect(id) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = '<option value="">-- Select Saree --</option>' +
+    db.sarees.filter(s=>s.qty>0).map(s=>`<option value="${s.id}" data-price="${s.price}">${s.title} (₹${s.price}) - ${s.qty} left</option>`).join('');
+}
+function addBillItem() {
+  const sel = document.getElementById('bill-saree-select');
+  const id = sel.value; if (!id) { showToast('Select a saree first'); return; }
+  const s = db.sarees.find(x=>x.id===id); if (!s) return;
+  const existing = billItems.find(i=>i.id===id);
+  if (existing) { existing.qty++; } else billItems.push({id, title:s.title, price:s.price, qty:1});
+  renderBillItems();
+}
+function renderBillItems() {
+  if (!billItems.length) {
+    document.getElementById('bill-items-list').innerHTML = '<div style="padding:12px 14px;text-align:center;color:var(--muted);font-size:.82rem">No items added yet</div>';
+    updateBillTotal(); return;
+  }
+  document.getElementById('bill-items-list').innerHTML = billItems.map((item,i)=>`
+    <div class="bill-row">
+      <div class="name">${item.title}</div>
+      <div class="qty">${item.qty}x</div>
+      <div class="price">₹${fmt(item.price*item.qty)}</div>
+      <button class="remove" onclick="removeBillItem(${i})">✕</button>
+    </div>`).join('');
+  updateBillTotal();
+}
+function removeBillItem(i) { billItems.splice(i,1); renderBillItems(); }
+function updateBillTotal() {
+  const sub = billItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const disc = parseFloat(document.getElementById('bill-discount').value)||0;
+  const total = Math.max(0, sub - disc);
+  document.getElementById('bill-total').innerHTML = `
+    ${disc>0?`<label>TOTAL <span style="font-size:.7rem;color:var(--muted);">(after ₹${disc} discount)</span></label>`:'<label>TOTAL</label>'}
+    <span>₹${fmt(total)}</span>`;
+}
+function saveBill() {
+  if (!billItems.length) { showToast('Add at least one saree'); return; }
+  const sub = billItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const disc = parseFloat(document.getElementById('bill-discount').value)||0;
+  const advance = parseFloat(document.getElementById('bill-advance').value)||0;
+  const total = Math.max(0, sub - disc);
+  const remaining = Math.max(0, total - advance);
+  const custId = document.getElementById('bill-cust').value;
+  const mode = document.getElementById('bill-pay-mode').value;
+  const note = document.getElementById('bill-note').value;
+  // Deduct stock
+  billItems.forEach(item=>{ const s=db.sarees.find(x=>x.id===item.id); if(s) s.qty=Math.max(0,s.qty-item.qty); });
+  // Record transaction
+  const txn = { id:'t'+Date.now(), type:'sale', custId:custId||null, amount:total, mode, note:`${note||'Sale'} (${billItems.length} items)`, date:Date.now() };
+  db.transactions.push(txn);
+  if (custId) {
+    const c = db.customers.find(x=>x.id===custId);
+    if (c) { if (mode==='Udhar (Credit)') c.udhar += remaining; }
+  }
+  saveDB(); closeModal('modal-bill'); renderDash(); renderStock();
+  showToast(`✅ Bill saved! Total ₹${fmt(total)}`);
+}
+function sendBillWhatsApp() {
+  if (!billItems.length) { showToast('Add items first'); return; }
+  const sub = billItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const disc = parseFloat(document.getElementById('bill-discount').value)||0;
+  const total = Math.max(0,sub-disc);
+  const lines = billItems.map(i=>`${i.title} x${i.qty} = ₹${fmt(i.price*i.qty)}`).join('%0A');
+  const msg = `🧾 *Bill from Rinky's Collections*%0A%0A${lines}%0A${disc>0?`Discount: -₹${disc}%0A`:''}*Total: ₹${fmt(total)}*%0A%0AThank you! 🪡`;
+  const phone = db.store.phone || '';
+  window.open(`https://wa.me/${phone?'91'+phone:''}?text=${msg}`,'_blank');
+}
+
+// ══════════════════════════════════════════════════════
+//  EXPORT
+// ══════════════════════════════════════════════════════
+function exportCSV(type) {
+  let csv = '', filename = '';
+  if (type==='stock') {
+    csv = 'Code,Title,Fabric,Color,Cost Price,Sell Price,Qty,Stock Value,Manufacturer\n';
+    db.sarees.forEach(s=>{ const m=db.manufacturers.find(x=>x.id===s.mfrId); csv+=`"${s.code||''}","${s.title}","${s.fabric||''}","${s.color||''}",${s.cost},${s.price},${s.qty},${s.price*s.qty},"${m?m.name:''}"\n`; });
+    filename = 'rinky-stock.csv';
+  } else if (type==='customers') {
+    csv = 'Name,Phone,City,Udhar Balance,Tag,Notes\n';
+    db.customers.forEach(c=>{ csv+=`"${c.name}","${c.phone}","${c.city||''}",${c.udhar},"${c.tag||''}","${c.notes||''}"\n`; });
+    filename = 'rinky-customers.csv';
+  } else if (type==='manufacturers') {
+    csv = 'Name,Contact,Phone,City,Speciality,Credit Owed,Credit Limit,Notes\n';
+    db.manufacturers.forEach(m=>{ csv+=`"${m.name}","${m.contact||''}","${m.phone||''}","${m.city||''}","${m.spec||''}",${m.credit},${m.limit},"${m.notes||''}"\n`; });
+    filename = 'rinky-manufacturers.csv';
+  } else if (type==='transactions') {
+    csv = 'Date,Type,Party,Amount,Mode,Note\n';
+    db.transactions.sort((a,b)=>b.date-a.date).forEach(t=>{
+      const cust=t.custId?db.customers.find(c=>c.id===t.custId):null;
+      const mfr=t.mfrId?db.manufacturers.find(m=>m.id===t.mfrId):null;
+      csv+=`"${new Date(t.date).toLocaleDateString('en-IN')}","${t.type}","${(cust||mfr)?((cust||mfr).name):'Walk-in'}",${t.amount},"${t.mode||''}","${t.note||''}"\n`;
+    });
+    filename = 'rinky-transactions.csv';
+  }
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+  closeModal('modal-export'); showToast('✅ Export downloaded');
+}
+
+function exportPDF() {
+  const totalStock = db.sarees.reduce((s,i)=>s+i.qty,0);
+  const stockVal = db.sarees.reduce((s,i)=>s+i.price*i.qty,0);
+  const totalDues = db.customers.reduce((s,c)=>s+c.udhar,0);
+  const totalMfr = db.manufacturers.reduce((s,m)=>s+m.credit,0);
+  const w = window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>Rinky's Collections – Ledger Report</title>
+  <style>body{font-family:Arial,sans-serif;max-width:800px;margin:20px auto;color:#333}
+  h1{color:#581145;border-bottom:3px solid #c5a059;padding-bottom:10px}
+  h2{color:#581145;margin-top:20px}
+  table{width:100%;border-collapse:collapse;margin:10px 0}
+  th{background:#581145;color:#fff;padding:8px;text-align:left;font-size:12px}
+  td{padding:7px 8px;border-bottom:1px solid #eee;font-size:12px}
+  tr:nth-child(even){background:#f9f0f6}
+  .summary{display:flex;gap:20px;flex-wrap:wrap;margin:15px 0}
+  .sum-box{background:#581145;color:#fff;padding:12px 18px;border-radius:8px;min-width:150px}
+  .sum-box label{font-size:10px;opacity:.8;display:block}
+  .sum-box span{font-size:1.3rem;font-weight:bold}
+  @media print{body{margin:10px}}</style></head><body>
+  <h1>🪡 Rinky's Collections – Ledger Report</h1>
+  <p>Generated: ${new Date().toLocaleString('en-IN')} | Store: ${db.store.name}</p>
+  <div class="summary">
+    <div class="sum-box"><label>Stock Value</label><span>₹${fmt(stockVal)}</span></div>
+    <div class="sum-box"><label>Total Pieces</label><span>${totalStock}</span></div>
+    <div class="sum-box" style="background:#b91c1c"><label>Customer Dues</label><span>₹${fmt(totalDues)}</span></div>
+    <div class="sum-box" style="background:#92400e"><label>Mfr Credit</label><span>₹${fmt(totalMfr)}</span></div>
+  </div>
+  <h2>📦 Stock Inventory</h2>
+  <table><tr><th>Code</th><th>Saree</th><th>Fabric</th><th>Price</th><th>Qty</th><th>Value</th></tr>
+  ${db.sarees.map(s=>`<tr><td>${s.code||'-'}</td><td>${s.title}</td><td>${s.fabric||'-'}</td><td>₹${s.price}</td><td>${s.qty}</td><td>₹${fmt(s.price*s.qty)}</td></tr>`).join('')}
+  </table>
+  <h2>👥 Customer Ledger</h2>
+  <table><tr><th>Name</th><th>Phone</th><th>City</th><th>Tag</th><th>Udhar</th></tr>
+  ${db.customers.map(c=>`<tr><td>${c.name}</td><td>${c.phone}</td><td>${c.city||'-'}</td><td>${c.tag}</td><td style="color:${c.udhar>0?'#b91c1c':'#059669'};font-weight:bold">₹${fmt(c.udhar)}</td></tr>`).join('')}
+  </table>
+  <h2>🏭 Manufacturer Accounts</h2>
+  <table><tr><th>Name</th><th>Contact</th><th>City</th><th>Speciality</th><th>Credit Owed</th></tr>
+  ${db.manufacturers.map(m=>`<tr><td>${m.name}</td><td>${m.contact||'-'}</td><td>${m.city||'-'}</td><td>${m.spec||'-'}</td><td style="color:#92400e;font-weight:bold">₹${fmt(m.credit)}</td></tr>`).join('')}
+  </table>
+  <p style="margin-top:30px;font-size:11px;color:#999">Rinky's Collections v2.0 · Powered by Saree Ledger</p>
+  </body></html>`);
+  w.document.close(); setTimeout(()=>w.print(), 500);
+  closeModal('modal-export'); closeModal('modal-store-settings');
+}
+
+function exportAllExcel() { exportCSV('stock'); }
+
+function sendWhatsAppReport() {
+  const totalDues = db.customers.reduce((s,c)=>s+c.udhar,0);
+  const stockVal = db.sarees.reduce((s,i)=>s+i.price*i.qty,0);
+  const mfrCredit = db.manufacturers.reduce((s,m)=>s+m.credit,0);
+  const lowStock = db.sarees.filter(s=>s.qty>0&&s.qty<=s.minQty).length;
+  const msg = `📊 *Rinky's Collections – Daily Report*%0A${new Date().toLocaleDateString('en-IN')}%0A%0A🛍️ Stock Value: *₹${fmt(stockVal)}*%0A👥 Customer Dues: *₹${fmt(totalDues)}*%0A🏭 Mfr Credit: *₹${fmt(mfrCredit)}*%0A${lowStock>0?`⚠️ Low Stock: ${lowStock} item(s)%0A`:''}%0ARinky's Collections 🪡`;
+  const phone = db.store.phone;
+  window.open(`https://wa.me/${phone?'91'+phone:''}?text=${msg}`,'_blank');
+  closeModal('modal-export');
+}
+
+function backupData() {
+  const blob = new Blob([JSON.stringify(db, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download = `rinky-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
+  showToast('✅ Backup saved');
+}
+function restoreBackup(input) {
+  const file = input.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (confirm('This will replace all current data. Continue?')) {
+        db = data; saveDB(); location.reload();
+      }
+    } catch { showToast('❌ Invalid backup file'); }
+  };
+  r.readAsText(file); input.value='';
+}
+function clearAllData() {
+  if (confirm('⚠️ This will DELETE all data permanently. Are you sure?')) {
+    if (confirm('Last warning! All sarees, customers & manufacturer data will be lost!')) {
+      localStorage.removeItem(DB_KEY); location.reload();
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════════════════
+function openStoreSettings() {
+  document.getElementById('set-name').value = db.store.name||'';
+  document.getElementById('set-owner').value = db.store.owner||'';
+  document.getElementById('set-phone').value = db.store.phone||'';
+  document.getElementById('set-addr').value = db.store.addr||'';
+  document.getElementById('set-upi').value = db.store.upi||'';
+  document.getElementById('set-gst').value = db.store.gst||'';
+  openModal('modal-store-settings');
+}
+function saveStoreSettings() {
+  db.store = {
+    name: document.getElementById('set-name').value.trim()||"Rinky's Collections",
+    owner: document.getElementById('set-owner').value.trim(),
+    phone: document.getElementById('set-phone').value.trim(),
+    addr: document.getElementById('set-addr').value.trim(),
+    upi: document.getElementById('set-upi').value.trim(),
+    gst: document.getElementById('set-gst').value.trim()
+  };
+  saveDB(); closeModal('modal-store-settings');
+  document.getElementById('wa-num-display').textContent = db.store.phone ? 'WhatsApp: '+db.store.phone : 'Set your business WhatsApp';
+  showToast('✅ Store settings saved');
+}
+
+// ══════════════════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════════════════
+function openSearch() { openModal('modal-search'); document.getElementById('search-input').focus(); document.getElementById('search-results').innerHTML=''; }
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  if (!q) { document.getElementById('search-results').innerHTML=''; return; }
+  const sarees = db.sarees.filter(s=>s.title.toLowerCase().includes(q)||s.code?.toLowerCase().includes(q)||s.fabric?.toLowerCase().includes(q)||s.color?.toLowerCase().includes(q));
+  const custs = db.customers.filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)||c.city?.toLowerCase().includes(q));
+  const mfrs = db.manufacturers.filter(m=>m.name.toLowerCase().includes(q)||m.city?.toLowerCase().includes(q)||m.spec?.toLowerCase().includes(q));
+  let html = '';
+  if (!sarees.length&&!custs.length&&!mfrs.length) { html='<div class="empty" style="padding:20px"><div class="empty-icon" style="font-size:2rem">🔍</div><p>No results found</p></div>'; }
+  if (sarees.length) html+=`<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:8px 0 4px">📦 Sarees</div>`+sarees.slice(0,4).map(s=>`<div class="act-item" onclick="closeModal('modal-search');openSareeDetail('${s.id}')"><div class="act-avatar" style="background:var(--primary-subtle);color:var(--primary)">🪡</div><div class="act-info"><div class="act-name">${s.title}</div><div class="act-desc">${s.fabric||''} · ₹${s.price} · ${s.qty} pcs</div></div></div>`).join('');
+  if (custs.length) html+=`<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:8px 0 4px">👥 Customers</div>`+custs.slice(0,4).map(c=>`<div class="act-item" onclick="closeModal('modal-search');openCustDetail('${c.id}')"><div class="act-avatar" style="background:#fef2f2;color:var(--danger)">${c.name.slice(0,2).toUpperCase()}</div><div class="act-info"><div class="act-name">${c.name}</div><div class="act-desc">${c.phone} · Udhar: ₹${c.udhar}</div></div></div>`).join('');
+  if (mfrs.length) html+=`<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:8px 0 4px">🏭 Manufacturers</div>`+mfrs.slice(0,3).map(m=>`<div class="act-item" onclick="closeModal('modal-search');openMfrDetail('${m.id}')"><div class="act-avatar" style="background:#fff3e0;color:var(--gold-dark)">${m.name.slice(0,2).toUpperCase()}</div><div class="act-info"><div class="act-name">${m.name}</div><div class="act-desc">${m.city||''} · Credit: ₹${m.credit}</div></div></div>`).join('');
+  document.getElementById('search-results').innerHTML = html;
+});
+
+// ══════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target===bg) bg.classList.remove('open'); });
+});
+
+let fabOpen = false;
+function toggleFab() {
+  fabOpen = !fabOpen;
+  document.getElementById('fab-speed').classList.toggle('hidden', !fabOpen);
+  document.getElementById('fab-btn').textContent = fabOpen ? '✕' : '➕';
+}
+function closeFab() {
+  fabOpen = false;
+  document.getElementById('fab-speed').classList.add('hidden');
+  document.getElementById('fab-btn').textContent = '➕';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+function fmt(n) {
+  if (!n) return '0';
+  return Math.round(n).toLocaleString('en-IN');
+}
+
+function timeAgo(ts) {
+  const d = Date.now()-ts; const s=Math.floor(d/1000), m=Math.floor(s/60), h=Math.floor(m/60), day=Math.floor(h/24);
+  if (day>0) return day===1?'Yesterday':day+'d ago';
+  if (h>0) return h+'h ago';
+  if (m>0) return m+'m ago';
+  return 'Just now';
+}
+
+function populateMfrSelect(id, selected='') {
+  document.getElementById(id).innerHTML = '<option value="">-- None --</option>' +
+    db.manufacturers.map(m=>`<option value="${m.id}" ${m.id===selected?'selected':''}>${m.name}</option>`).join('');
+}
+function populateCustSelect(id) {
+  document.getElementById(id).innerHTML = '<option value="">Walk-in Customer</option>' +
+    db.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderDash();
+  document.getElementById('wa-num-display').textContent = db.store.phone ? 'WhatsApp: '+db.store.phone : 'Set your business WhatsApp';
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  }
+});
+</script>
+</body>
+</html>
