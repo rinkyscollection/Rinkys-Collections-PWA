@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "short_name": "RinkySarees",
+  "name": "Rinky's Collections - Saree Ledger",
+  "description": "Saree Store Management: Stock, Customer Udhar Khata, Manufacturer Ledger, WhatsApp Billing, PDF/Excel Export",
+  "icons": [
+    { "src": "/logo.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "/logo.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ],
+  "start_url": "/",
+  "background_color": "#581145",
+  "theme_color": "#581145",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "categories": ["business", "finance"]
+}
